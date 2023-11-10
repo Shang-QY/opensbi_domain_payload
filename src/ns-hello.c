@@ -48,8 +48,9 @@ void sbi_domain_secure_enter()
 void main()
 {
     const char *s = "Hello Normal World.\n";
-    while (*s) sbi_console_putchar(*s++);
     while (1) {
+        const char *t = s;
+        while (*t) sbi_console_putchar(*t++);
         sbi_domain_secure_enter();
     }
 }

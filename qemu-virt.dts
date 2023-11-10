@@ -38,6 +38,12 @@
 		opensbi-domains {
 			compatible = "opensbi,domain,config";
 
+			tmem: tmem {
+				compatible = "opensbi,domain,memregion";
+				base = <0x0 0x80C00000>;
+				order = <22>;   // 4M
+			};
+
 			allmem: allmem {
 				compatible = "opensbi,domain,memregion";
 				base = <0x0 0x0>;
@@ -46,7 +52,7 @@
 
 			udomain: untrusted-domain {
 				compatible = "opensbi,domain,instance";
-				regions = <&allmem 0x3f>;
+				regions = <&tmem 0x0>, <&allmem 0x3f>;
 				possible-harts = <&cpu0>;
 				next-arg1 = <0x0 0xbfe00000>;
 				next-addr = <0x0 0x80200000>;
@@ -60,6 +66,7 @@
 				next-arg1 = <0x0 0x81F80000>;
 				next-addr = <0x0 0x80C00000>;
 				next-mode = <0x1>;
+                context_mgmt_enabled;
 			};
 		};
 	};
@@ -88,7 +95,7 @@
 			reg = <0x00>;
 			status = "okay";
 			compatible = "riscv";
-			opensbi-domain = <&tdomain>;
+			opensbi-domain = <&udomain>;
 			riscv,cboz-block-size = <0x40>;
 			riscv,cbom-block-size = <0x40>;
 			riscv,isa = "rv64imafdch_zicbom_zicboz_zicsr_zifencei_zihintpause_zawrs_zfa_zca_zcd_zba_zbb_zbc_zbs_sstc_svadu";
