@@ -40,9 +40,9 @@ void sbi_console_putchar(int ch)
 }
 
 
-void sbi_domain_cm_exit()
+void sbi_domain_secure_enter()
 {
-        sbi_ecall(SBI_EXT_TEST, 0, 0, 0, 0, 0, SBI_EXT_SECURE_ENTER, 0);
+        sbi_ecall(SBI_EXT_TEST, SBI_EXT_SECURE_ENTER, 0, 0, 0, 0, 0, 0);
 }
 
 void main()
@@ -50,6 +50,6 @@ void main()
     const char *s = "Hello Normal World.\n";
     while (*s) sbi_console_putchar(*s++);
     while (1) {
-        sbi_domain_cm_exit();
+        sbi_domain_secure_enter();
     }
 }

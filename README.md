@@ -30,6 +30,5 @@ vim qemu-virt.dts  <== Modify this file
 dtc -I dts -O dtb -o qemu-virt-new.dtb qemu-virt.dts
 
 cd $WORKDIR
-./qemu/build/qemu-system-riscv64 -nographic -machine virt -bios ./opensbi/build/platform/generic/firmware/fw_jump.bin -kernel test_context_switch/build/ns-hello/ns-hello.elf -device loader,file=test_context_switch/build/s-hello/s-hello.bin,addr=0x80C00000
 ./qemu/build/qemu-system-riscv64 -nographic -machine virt -bios ./opensbi/build/platform/generic/firmware/fw_jump.bin -dtb ./qemu-virt-new.dtb -kernel test_context_switch/build/ns-hello/ns-hello.elf -device loader,file=test_context_switch/build/s-hello/s-hello.bin,addr=0x80C00000
 ```
