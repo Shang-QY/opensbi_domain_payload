@@ -34,7 +34,7 @@ make
 
 ### Build device tree
 ```
-cd $WORKDIR
+cd $WORKDIR/test_context_switch
 sudo apt-get install device-tree-compiler
 dtc -I dts -O dtb -o ../qemu-virt-new.dtb qemu-virt.dts
 
