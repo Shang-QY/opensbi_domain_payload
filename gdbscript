@@ -11,4 +11,8 @@ add-symbol-file ../rpmi/test_context_switch/build/s-hello/s-hello.elf 0x80C00000
 b *0x80200000
 b *0x80C00000
 b *0x80000000
+
+b sbi_context_domain_exit
+b sbi_context_domain_enter
+b sbi_hsm_hart_start
 tui enable

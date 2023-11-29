@@ -3,6 +3,13 @@
 #define SBI_EXT_SECURE_ENTER 0x0
 #define SBI_EXT_SECURE_EXIT  0x1
 
+#define SBI_EXT_HSM				0x48534D
+#define SBI_EXT_HSM_HART_START			0x0
+
+#define PRV_U				0
+#define PRV_S				1
+#define PRV_M				3
+
 struct sbiret {
   unsigned long error;
   unsigned long value;
@@ -39,15 +46,53 @@ void sbi_console_putchar(int ch)
         sbi_ecall(SBI_EXT_0_1_CONSOLE_PUTCHAR, 0, ch, 0, 0, 0, 0, 0);
 }
 
+static int sbi_hsm_hart_start(unsigned long hartid, unsigned long saddr,
+			      unsigned long priv)
+{
+	struct sbiret ret;
+
+	ret = sbi_ecall(SBI_EXT_HSM, SBI_EXT_HSM_HART_START,
+			hartid, saddr, priv, 0, 0, 0);
+	if (ret.error)
+		return -1;
+	else
+		return 0;
+}
 
 void sbi_domain_secure_exit()
 {
         sbi_ecall(SBI_EXT_TEST, SBI_EXT_SECURE_EXIT, 0, 0, 0, 0, 0, 0);
 }
 
-void main()
+int hart_table[] = {0, 1};
+extern void _start_warm(void);
+
+char temp[] = "Hart_ : Hello Secure World.\n";
+
+char *strcpy(char *dest, const char *src)
 {
-    const char *s = "Hello Secure World.\n";
+	char *ret = dest;
+
+	while (*src != '\0') {
+		*dest++ = *src++;
+	}
+
+	return ret;
+}
+
+void main(int hartid, int cold_boot_hartid)
+{
+    char s[30]; 
+    strcpy(s, temp);
+    s[5] = '0' + hartid;
+
+    if (hartid == cold_boot_hartid) {
+        for (int i = 0; i < sizeof(hart_table) / sizeof(int); ++i) {
+            if (i != hartid)
+                sbi_hsm_hart_start(hart_table[i], (unsigned long)_start_warm, PRV_S);
+        }
+    }
+
     while (1) {
         const char *t = s;
         while (*t) sbi_console_putchar(*t++);
