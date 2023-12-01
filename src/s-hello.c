@@ -70,7 +70,6 @@ extern void _start_warm(void);
 void main(int hartid, int cold_boot_hartid)
 {
     char *s = "Hart_ : Hello Secure World.\n";
-    s[5] = '0' + hartid;
 
     if (hartid == cold_boot_hartid) {
         for (int i = 0; i < sizeof(hart_table) / sizeof(int); ++i) {
@@ -81,6 +80,8 @@ void main(int hartid, int cold_boot_hartid)
 
     while (1) {
         const char *t = s;
+        /* Need to have lock here... */
+        s[5] = '0' + hartid;
         while (*t) sbi_console_putchar(*t++);
         sbi_domain_secure_exit();
     }
