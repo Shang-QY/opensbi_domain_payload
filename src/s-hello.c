@@ -67,9 +67,23 @@ void sbi_domain_secure_exit()
 int hart_table[] = {0, 1};
 extern void _start_warm(void);
 
+char temp[] = "Hart_ : Hello Secure World.\n";
+
+char *strcpy(char *dest, const char *src)
+{
+	char *ret = dest;
+
+	while (*src != '\0') {
+		*dest++ = *src++;
+	}
+
+	return ret;
+}
+
 void main(int hartid, int cold_boot_hartid)
 {
-    char *s = "Hart_ : Hello Secure World.\n";
+    char s[30]; 
+    strcpy(s, temp);
     s[5] = '0' + hartid;
 
     if (hartid == cold_boot_hartid) {
