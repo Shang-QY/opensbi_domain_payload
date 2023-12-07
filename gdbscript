@@ -2,7 +2,7 @@ set architecture riscv:rv64
 target remote localhost:1234
 
 set directories ../rpmi/PenglaiZone
-set directories ../test_context_switch
+set directories ../rpmi/test_context_switch
 
 add-symbol-file ../rpmi/PenglaiZone/build/platform/generic/firmware/fw_jump.elf 0x80000000
 add-symbol-file ../rpmi/test_context_switch/build/ns-hello/ns-hello.elf 0x80200000
