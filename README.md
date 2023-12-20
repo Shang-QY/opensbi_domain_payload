@@ -106,7 +106,7 @@ returns control back to ns-hello.
 
 ## Test Output
 
-
+![image](https://github.com/Shang-QY/test_context_switch/assets/55442231/bf18d960-b4c4-490a-8643-7a8dea3ca354)
 
 ## Test Setup
 
