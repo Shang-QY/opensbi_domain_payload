@@ -88,8 +88,10 @@ void main(int hartid, int cold_boot_hartid)
 
     if (hartid == cold_boot_hartid) {
         for (int i = 0; i < sizeof(hart_table) / sizeof(int); ++i) {
-            if (i != hartid)
-                sbi_hsm_hart_start(hart_table[i], (unsigned long)_start_warm, PRV_S);
+            if (i != hartid) {
+                while (sbi_hsm_hart_start(hart_table[i], (unsigned long)_start_warm, PRV_S))
+                    ;
+            }
         }
     }
 
