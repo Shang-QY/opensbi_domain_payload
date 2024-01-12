@@ -124,7 +124,7 @@ make -j $(nproc)
 ### Build OpenSBI
 ```
 cd $WORKDIR
-git clone https://github.com/Penglai-Enclave/opensbi.git -b dev-context-management-v3.0
+git clone https://github.com/Penglai-Enclave/opensbi.git -b dev-context-management-v4.2
 cd opensbi
 CROSS_COMPILE=riscv64-linux-gnu- make PLATFORM=generic
 ```
