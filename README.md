@@ -106,7 +106,7 @@ returns control back to linux multi-core app.
 
 ## Test Output
 
-![image](https://github.com/Shang-QY/test_context_switch/assets/55442231/bf18d960-b4c4-490a-8643-7a8dea3ca354)
+![image](https://github.com/Shang-QY/test_context_switch/assets/55442231/b91221f6-1c17-43bf-a173-30c6da3a4f80)
 
 ## Test Setup
 
