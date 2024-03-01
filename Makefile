@@ -8,7 +8,7 @@ BUILD_DIR   = build
 NS_HELLO_DIR= $(BUILD_DIR)/ns-hello
 S_HELLO_DIR = $(BUILD_DIR)/s-hello
 
-all: s-hello ns-hello
+all: s-hello ns-hello ns-linux-app-hello
 
 clean:
 	rm -fr $(BUILD_DIR)
@@ -39,8 +39,13 @@ $(S_HELLO_DIR)/s-hello.elf: $(S_HELLO_DIR)/crt.o $(S_HELLO_DIR)/hello.o
 
 $(S_HELLO_DIR)/crt.o: src/crt.S
 	mkdir -p $(S_HELLO_DIR)
-	$(CC) $(ASM_FLAGS) -c $< -o $@ -DSYS_INIT_SP_ADDR=0x80C10000
+	$(CC) $(ASM_FLAGS) -c $< -o $@ -DSYS_INIT_SP_ADDR=0xF0C10000
 
 $(S_HELLO_DIR)/hello.o: src/s-hello.c
 	mkdir -p $(S_HELLO_DIR)
 	$(CC) $(CC_FLAGS) -c $< -o $@
+
+ns-linux-app-hello: $(NS_HELLO_DIR)/ns-linux-app-hello
+
+$(NS_HELLO_DIR)/ns-linux-app-hello:
+	riscv64-unknown-linux-gnu-gcc -o $@ -static src/ns-linux-app-hello.c -lpthread
